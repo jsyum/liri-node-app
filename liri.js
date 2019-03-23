@@ -5,6 +5,7 @@ var keys = require("./keys.js");
 
 // Include the axios npm package (Don't forget to run "npm install axios" in this folder first!)
 var axios = require("axios");
+var fs = require("fs");
 var moment = require("moment");
 moment().format();
 // var dotenv = require("dotenv").config();
@@ -26,6 +27,9 @@ function fullRequest(userCommand) {
       break;
     case "movie-this":
       movieThis();
+      break;
+    case "do-what-it-says":
+      doThis();
       break;
     default:
       console.log("Not a valid search query");
@@ -97,5 +101,21 @@ function concertThis() {
     var date = response.data[0].datetime;
     var format = "LLLL";
     console.log("Date of event: " + moment(date).format(format));
+  });
+}
+
+function doThis() {
+  fs.readFile("random.txt", "utf8", function(error, data) {
+    if (error) {
+      return console.log(error);
+    }
+    console.log(data);
+    //split with comma to make more readable
+    var dataArr = data.split(",");
+    console.log(dataArr);
+    console.log(dataArr[0]);
+    userCommand = dataArr[0];
+    userQuery = dataArr[1];
+    fullRequest(userCommand);
   });
 }
