@@ -5,6 +5,8 @@ var keys = require("./keys.js");
 
 // Include the axios npm package (Don't forget to run "npm install axios" in this folder first!)
 var axios = require("axios");
+var moment = require("moment");
+moment().format();
 // var dotenv = require("dotenv").config();
 var Spotify = require("node-spotify-api");
 var spotify = new Spotify(keys.spotify);
@@ -72,4 +74,28 @@ function spotifyThis() {
     .catch(function(err) {
       console.log(err);
     });
+}
+
+function concertThis() {
+  var queryUrl =
+    "https://rest.bandsintown.com/artists/" +
+    userQuery +
+    "/events?app_id=codingbootcamp";
+
+  axios.get(queryUrl).then(function(response) {
+    console.log("Venue name: " + response.data[0].venue.name);
+    console.log(
+      "Venue location: " +
+        response.data[0].venue.latitude +
+        ", " +
+        response.data[0].venue.longitude +
+        "\n" +
+        response.data[0].venue.city +
+        "," +
+        response.data[0].venue.region
+    );
+    var date = response.data[0].datetime;
+    var format = "LLLL";
+    console.log("Date of event: " + moment(date).format(format));
+  });
 }
