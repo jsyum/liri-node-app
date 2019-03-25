@@ -1,4 +1,6 @@
-console.log("this is loaded");
+// console.log("this is loaded");
+
+// console.log("ENVIRONMENT VARIABLES: ", process.env);
 
 // exports.spotify = {
 //   id: process.env.SPOTIFY_ID,

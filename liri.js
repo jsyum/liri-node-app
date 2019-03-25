@@ -3,13 +3,14 @@
 //Add the code required to import the keys.js file and store it in a variable
 var keys = require("./keys.js");
 
-// Include the axios npm package (Don't forget to run "npm install axios" in this folder first!)
+// Include the axios npm package
 var axios = require("axios");
 var fs = require("fs");
 var moment = require("moment");
 moment().format();
 // var dotenv = require("dotenv").config();
 var Spotify = require("node-spotify-api");
+// console.log("keys: %j", keys.spotify);
 var spotify = new Spotify(keys.spotify);
 
 //Take user command and specific query
@@ -32,7 +33,9 @@ function fullRequest(userCommand) {
       doThis();
       break;
     default:
-      console.log("Not a valid search query");
+      console.log(
+        "\n\nSorry that's not a valid search query!\nInstead try...\n\nconcert-this\nspotify-this-song\nmovie-this\ndo-what-it-says\n\n...followed by your query\n\n"
+      );
       break;
   }
 }
@@ -50,14 +53,25 @@ function movieThis() {
   axios.get(queryUrl).then(function(response) {
     // console.log(response);
     // console.log(response.data.Ratings[1].Source);
-    console.log("Title: " + response.data.Title);
-    console.log("Release Year: " + response.data.Year);
-    console.log("IMDB Rating: " + response.data.imdbRating);
-    console.log("Rotten Tomatoes Rating: " + response.data.Ratings[1].Value);
-    console.log("Country: " + response.data.Country);
-    console.log("Language: " + response.data.Language);
-    console.log("Plot: " + response.data.Plot);
-    console.log("Actors: " + response.data.Actors);
+    console.log(
+      "\n\nTitle: " +
+        response.data.Title +
+        "\nRelease Year: " +
+        response.data.Year +
+        "\nIMDB Rating: " +
+        response.data.imdbRating +
+        "\nRotten Tomatoes Rating: " +
+        response.data.Ratings[1].Value +
+        "\nCountry: " +
+        response.data.Country +
+        "\nLanguage: " +
+        response.data.Language +
+        "\nPlot: " +
+        response.data.Plot +
+        "\nActors: " +
+        response.data.Actors +
+        "\n\n"
+    );
   });
 }
 
@@ -68,11 +82,18 @@ function spotifyThis() {
   spotify
     .search({ type: "track", query: userQuery, limit: 1 })
     .then(function(response) {
-      //   console.log(response.tracks.items);
-      console.log("Artist: " + response.tracks.items[0].album.artists[0].name);
-      console.log("Song name: " + response.tracks.items[0].name);
-      console.log("Preview Url: " + response.tracks.items[0].preview_url);
-      console.log("Album name: " + response.tracks.items[0].album.name);
+      // console.log(response.tracks.items[0]);
+      console.log(
+        "\n\n\nArtist: " +
+          response.tracks.items[0].album.artists[0].name +
+          "\nSong name: " +
+          response.tracks.items[0].name +
+          "\nPreview Url: " +
+          response.tracks.items[0].preview_url +
+          "\nAlbum name: " +
+          response.tracks.items[0].album.name +
+          "\n\n\n"
+      );
     })
 
     .catch(function(err) {
@@ -87,9 +108,10 @@ function concertThis() {
     "/events?app_id=codingbootcamp";
 
   axios.get(queryUrl).then(function(response) {
-    console.log("Venue name: " + response.data[0].venue.name);
     console.log(
-      "Venue location: " +
+      "\n\nVenue name: " +
+        response.data[0].venue.name +
+        "\nVenue location: " +
         response.data[0].venue.latitude +
         ", " +
         response.data[0].venue.longitude +
@@ -100,7 +122,7 @@ function concertThis() {
     );
     var date = response.data[0].datetime;
     var format = "LLLL";
-    console.log("Date of event: " + moment(date).format(format));
+    console.log("Date of event: " + moment(date).format(format) + "\n\n");
   });
 }
 
@@ -110,7 +132,6 @@ function doThis() {
       return console.log(error);
     }
     console.log(data);
-    //split with comma to make more readable
     var dataArr = data.split(",");
     console.log(dataArr);
     console.log(dataArr[0]);
