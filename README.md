@@ -1,5 +1,5 @@
 # liri-node-app
-![Liri Demot](liridemo?raw=true "liridemo")
+![Liri Demo](/liridemo.png?raw=true "liridemo")
 
 Link to demo video: 
 https://drive.google.com/file/d/1MGgjEkbDHiVoe2X6xDpXdTdVwh9Wy8V4/view
